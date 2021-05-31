@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+      <param name="robot_description" command="$(find xacro)/xacro $(find dd_wut)/wut_ddsim.xacro"/>
+      
+      <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+      <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+     
+      <node name="rviz" pkg="rviz" type="rviz" args= "-d $(find dd_wut)/rviz/display.rviz"/>
+
+      <include file="$(find gazebo_ros)/launch/empty_world.launch">
+            <arg name="world_name" value="$(find dd_wut)/Worlds/wut.world"/>
+      </include>
+
+     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model my_ros_robot -param robot_description"/>
+     <node name="teleop" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py"/>
+
+</launch>
